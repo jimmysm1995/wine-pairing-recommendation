@@ -5,14 +5,20 @@ import matplotlib.pyplot as plt
 # Cargar los datos
 @st.cache_data
 def load_data():
-    # Reemplaza 'data/vivino_clean.csv' con la ruta a tu archivo de datos
+    # Ruta a los datos de archivos
     data = pd.read_csv('data/vivino_clean.csv')
     # Mapear valores numéricos a nombres de tipos de vino
-    wine_type_mapping = {1: 'blanco', 2: 'tinto'}
+    wine_type_mapping = {1: 'Blanco', 2: 'Tinto'}
     data['wine_type'] = data['wine_type'].map(wine_type_mapping)
     return data
 
 data = load_data()
+
+# Extraer tipos de comida únicos
+comidas = set()
+for pairings in data['pairing']:
+    for comida in pairings.split(','):
+        comidas.add(comida.strip())
 
 # Título de la aplicación
 st.title('Recomendación de Maridaje de Vinos')
@@ -23,7 +29,7 @@ st.dataframe(data)
 
 # Función para recomendar vinos
 def recomendar_vino(tipo_comida, tipo_vino=None, region=None):
-    recomendaciones = data[data['pairing'] == tipo_comida]
+    recomendaciones = data[data['pairing'].str.contains(tipo_comida, case=False, na=False)]
     if tipo_vino:
         recomendaciones = recomendaciones[recomendaciones['wine_type'] == tipo_vino]
     if region:
@@ -33,28 +39,36 @@ def recomendar_vino(tipo_comida, tipo_vino=None, region=None):
     return recomendaciones
 
 # Interfaz de usuario
-tipo_comida = st.selectbox('Selecciona el tipo de comida:', data['pairing'].unique())
+tipo_comida = st.selectbox('Selecciona el tipo de comida:', sorted(comidas))
 tipo_vino = st.selectbox('Selecciona el tipo de vino (opcional):', [''] + list(data['wine_type'].unique()))
 region = st.selectbox('Selecciona la región (opcional):', [''] + list(data['country'].unique()))
 
 if st.button('Recomendar Vino'):
     recomendaciones = recomendar_vino(tipo_comida, tipo_vino if tipo_vino else None, region if region else None)
-    st.write('Vinos recomendados:')
-    st.dataframe(recomendaciones)
+    if recomendaciones.empty:
+        st.write('No se ha encontrado ninguna coincidencia relacionada con la búsqueda. Intentelo de nuevo con otras opciones.')
+    else:
+        st.write('Vinos recomendados:')
 
-    # Mostrar descripciones detalladas
-    for index, row in recomendaciones.iterrows():
-        st.subheader(row['wine_name'])
-        st.write(f"Tipo: {row['wine_type']}")
-        st.write(f"Región: {row['country']}")
-        st.write(f"Descripción: {row['Estilo de vino']}")
+        # Mostrar descripciones detalladas
+        for index, row in recomendaciones.iterrows():
+            st.subheader(row['wine_name'])
+            st.write(f"Tipo: {row['wine_type']}")
+            st.write(f"Región: {row['country']}")
+            st.write(f"Descripción: {row['Estilo de vino']}")
 
-    # Mostrar gráfico de distribución de puntuaciones
-    st.write('Distribución de puntuaciones:')
-    fig, ax = plt.subplots()
-    recomendaciones['score'].hist(ax=ax, bins=20)
-    st.pyplot(fig)
+        # Mostrar gráfico de distribución de puntuaciones
+        st.write('Distribución de puntuaciones:')
+        fig, ax = plt.subplots()
+        recomendaciones.plot(kind='bar', x='wine_name', y='score', ax=ax, legend=False, color='skyblue', edgecolor='black')
+        ax.set_ylabel('Puntuación', fontsize=12)
+        ax.set_xlabel('Nombre del Vino', fontsize=12)
+        ax.set_title('Puntuaciones de los Vinos Recomendados', fontsize=14)
+        plt.xticks(rotation=45, ha='right', fontsize=10)
+        plt.yticks(fontsize=10)
+        ax.grid(True, linestyle='--', alpha=0.7)
+        st.pyplot(fig)
 
-    # Mostrar tabla con nombres y puntuaciones de los vinos recomendados
-    st.write('Nombres y puntuaciones de los vinos recomendados:')
-    st.table(recomendaciones[['wine_name', 'score']])
+        # Mostrar tabla con nombres y puntuaciones de los vinos recomendados
+        st.write('Nombres y puntuaciones de los vinos recomendados:')
+        st.table(recomendaciones[['wine_name', 'score']])
