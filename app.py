@@ -1,74 +1,111 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import joblib
 
-# Cargar los datos
+# Cargar el modelo de maridaje
+@st.cache_resource
+def load_model():
+    model = joblib.load('modelo_maridaje.pkl')
+    return model
+
+model = load_model()
+
+# Cargar los datos de vinos
 @st.cache_data
 def load_data():
-    # Ruta a los datos de archivos
     data = pd.read_csv('data/vivino_clean.csv')
-    # Mapear valores numéricos a nombres de tipos de vino
-    wine_type_mapping = {1: 'Blanco', 2: 'Tinto'}
-    data['wine_type'] = data['wine_type'].map(wine_type_mapping)
+    # Eliminar los vinos que tengan como año -1
+    data = data[data['year'] != -1]
     return data
 
 data = load_data()
 
-# Extraer tipos de comida únicos
-comidas = set()
-for pairings in data['pairing']:
-    for comida in pairings.split(','):
-        comidas.add(comida.strip())
+# Renombrar las columnas para que coincidan con las características usadas para entrenar el modelo
+data.columns = [
+    'bodega', 'wine_name', 'year', 'price', 'score', 'country', 'wine_type', 
+    'pairing', 'pictures', 'price_quality', 'wine_style', 'country_grouped'
+]
+
+# Renombrar la columna 'pictures' a 'image'
+data = data.rename(columns={'pictures': 'image'})
+
+# Actualizar las URLs en la columna 'image' para que comiencen con 'https:'
+data['image'] = data['image'].apply(lambda x: f"https:{x}" if x.startswith('//') else x)
+
+# Diccionario que mapea los números a los nombres de los alimentos
+food_mapping = {
+    0: 'Carne',
+    1: 'Pescado',
+    2: 'Pollo',
+    3: 'Pasta',
+    4: 'Queso',
+    5: 'Ensalada',
+    6: 'Postre',
+    7: 'Mariscos',
+    8: 'Verduras',
+    9: 'Sopa',
+    10: 'Pizza',
+    11: 'Hamburguesa',
+    12: 'Sushi',
+    13: 'Tacos',
+    14: 'Paella',
+    15: 'Curry',
+    16: 'Barbacoa',
+    17: 'Tapas',
+    18: 'Risotto',
+    19: 'Empanadas',
+    20: 'Ceviche',
+    21: 'Guiso'
+}
+
+# Diccionario que mapea los números a los nombres de los tipos de vino
+wine_type_mapping = {
+    1: 'Blanco',
+    2: 'Tinto'
+}
 
 # Título de la aplicación
 st.title('Recomendación de Maridaje de Vinos')
 
-# Mostrar los datos
-st.write('Datos de Vinos:')
-st.dataframe(data)
+# Buscador de vinos
+busqueda_vino = st.text_input('Buscar vino:')
 
-# Función para recomendar vinos
-def recomendar_vino(tipo_comida, tipo_vino=None, region=None):
-    recomendaciones = data[data['pairing'].str.contains(tipo_comida, case=False, na=False)]
-    if tipo_vino:
-        recomendaciones = recomendaciones[recomendaciones['wine_type'] == tipo_vino]
-    if region:
-        recomendaciones = recomendaciones[recomendaciones['country'] == region]
-    # Ordenar por puntuación y seleccionar los 10 mejores
-    recomendaciones = recomendaciones.sort_values(by='score', ascending=False).head(10)
-    return recomendaciones
+# Filtrar los vinos según la búsqueda
+vinos_filtrados = data[data['wine_name'].str.contains(busqueda_vino, case=False, na=False)]
 
-# Interfaz de usuario
-tipo_comida = st.selectbox('Selecciona el tipo de comida:', sorted(comidas))
-tipo_vino = st.selectbox('Selecciona el tipo de vino (opcional):', [''] + list(data['wine_type'].unique()))
-region = st.selectbox('Selecciona la región (opcional):', [''] + list(data['country'].unique()))
+# Ordenar los vinos alfabéticamente
+vinos_ordenados = sorted(vinos_filtrados['wine_name'].unique())
 
-if st.button('Recomendar Vino'):
-    recomendaciones = recomendar_vino(tipo_comida, tipo_vino if tipo_vino else None, region if region else None)
-    if recomendaciones.empty:
-        st.write('No se ha encontrado ninguna coincidencia relacionada con la búsqueda. Intentelo de nuevo con otras opciones.')
+# Selección del vino
+vino_seleccionado = st.selectbox('Selecciona el vino:', vinos_ordenados)
+
+# Función para recomendar maridaje usando el modelo
+def recomendar_maridaje(vino):
+    vino_data = data[data['wine_name'] == vino]
+    if vino_data.empty:
+        return "No se encontró el vino seleccionado."
     else:
-        st.write('Vinos recomendados:')
+        # Usar el modelo para predecir el maridaje
+        features = vino_data[['year', 'price', 'score', 'wine_type', 'price_quality', 'country_grouped']]
+        maridaje_predicho = model.predict(features)
+        # Convertir los valores predichos a nombres de alimentos
+        maridaje_nombres = [food_mapping[i] for i, val in enumerate(maridaje_predicho[0]) if val == 1]
+        return maridaje_nombres
 
-        # Mostrar descripciones detalladas
-        for index, row in recomendaciones.iterrows():
-            st.subheader(row['wine_name'])
-            st.write(f"Tipo: {row['wine_type']}")
-            st.write(f"Región: {row['country']}")
-            st.write(f"Descripción: {row['Estilo de vino']}")
+if st.button('Recomendar Maridaje'):
+    maridaje = recomendar_maridaje(vino_seleccionado)
+    st.write(f"Maridaje recomendado para {vino_seleccionado}: {', '.join(maridaje)}")
 
-        # Mostrar gráfico de distribución de puntuaciones
-        st.write('Distribución de puntuaciones:')
-        fig, ax = plt.subplots()
-        recomendaciones.plot(kind='bar', x='wine_name', y='score', ax=ax, legend=False, color='skyblue', edgecolor='black')
-        ax.set_ylabel('Puntuación', fontsize=12)
-        ax.set_xlabel('Nombre del Vino', fontsize=12)
-        ax.set_title('Puntuaciones de los Vinos Recomendados', fontsize=14)
-        plt.xticks(rotation=45, ha='right', fontsize=10)
-        plt.yticks(fontsize=10)
-        ax.grid(True, linestyle='--', alpha=0.7)
-        st.pyplot(fig)
-
-        # Mostrar tabla con nombres y puntuaciones de los vinos recomendados
-        st.write('Nombres y puntuaciones de los vinos recomendados:')
-        st.table(recomendaciones[['wine_name', 'score']])
+# Mostrar detalles del vino seleccionado
+vino_data = data[data['wine_name'] == vino_seleccionado]
+if not vino_data.empty:
+    st.subheader('Detalles del Vino Seleccionado')
+    st.write(f"Bodega: {vino_data.iloc[0]['bodega']}")
+    st.write(f"Año: {vino_data.iloc[0]['year']}")
+    st.write(f"Precio: {vino_data.iloc[0]['price']}")
+    st.write(f"Puntuación: {vino_data.iloc[0]['score']}")
+    st.write(f"País: {vino_data.iloc[0]['country']}")
+    st.write(f"Tipo de Vino: {wine_type_mapping[vino_data.iloc[0]['wine_type']]}")
+    st.write(f"Estilo de Vino: {vino_data.iloc[0]['wine_style']}")
+    if vino_data.iloc[0]['image']:
+        st.image(vino_data.iloc[0]['image'], width=80)
