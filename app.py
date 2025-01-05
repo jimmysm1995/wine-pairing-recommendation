@@ -34,28 +34,28 @@ data['image'] = data['image'].apply(lambda x: f"https:{x}" if x.startswith('//')
 
 # Diccionario que mapea los números a los nombres de los alimentos
 food_mapping = {
-    0: 'Carne',
-    1: 'Pescado',
-    2: 'Pollo',
+    0: 'Ternera',
+    1: 'Ternera lechal',
+    2: 'Aves',
     3: 'Pasta',
-    4: 'Queso',
-    5: 'Ensalada',
-    6: 'Postre',
-    7: 'Mariscos',
-    8: 'Verduras',
-    9: 'Sopa',
-    10: 'Pizza',
-    11: 'Hamburguesa',
-    12: 'Sushi',
-    13: 'Tacos',
-    14: 'Paella',
-    15: 'Curry',
-    16: 'Barbacoa',
-    17: 'Tapas',
-    18: 'Risotto',
-    19: 'Empanadas',
-    20: 'Ceviche',
-    21: 'Guiso'
+    4: 'Marisco',
+    5: 'Aperitivos y tentempiés',
+    6: 'Pescado blanco',
+    7: 'Carne adobada',
+    8: 'Cordero',
+    9: 'Carne de caza',
+    10: 'Cerdo',
+    11: 'Vegetariana',
+    12: 'Carne de caza',
+    13: 'Queso azul',
+    14: 'Pescado azul',
+    15: 'Comida picante',
+    16: 'Queso tierno y cremoso',
+    17: 'Pescado azul',
+    18: 'Champiñones',
+    19: 'Queso curado',
+    20: 'Queso de leche de cabra',
+    21: 'Aperitivo'
 }
 
 # Diccionario que mapea los números a los nombres de los tipos de vino
@@ -66,9 +66,10 @@ wine_type_mapping = {
 
 # Diccionario para asociar países a grupos
 country_mapping = {
-    'italia': 1,
-    'francia': 2,
-    'españa': 3
+    'Otro': 0,
+    'Italia': 1,
+    'Francia': 2,
+    'España': 3
 }
 
 # Función que mapea los demás países a 0 (otros países)
