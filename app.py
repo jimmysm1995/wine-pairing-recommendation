@@ -64,12 +64,21 @@ wine_type_mapping = {
     2: 'Tinto'
 }
 
+# Diccionario para relacionar la calidad del precio con un número
+price_quality_mapping = {
+    1: 'Relación calidad-precio no disponible',
+    2: 'Mejor relación calidad-precio en otros vinos',
+    3: 'Relación calidad-precio razonable',
+    4: 'Buena relación calidad-precio',
+    5: 'Excelente relación calidad-precio',
+    6: '¡Increíble relación calidad-precio!'
+}
+
 # Diccionario para asociar países a grupos
 country_mapping = {
-    'Otro': 0,
-    'Italia': 1,
-    'Francia': 2,
-    'España': 3
+    'italia': 1,
+    'francia': 2,
+    'españa': 3
 }
 
 # Función que mapea los demás países a 0 (otros países)
@@ -153,7 +162,7 @@ elif opcion == 'Ingresar un vino nuevo':
         price = st.number_input('Precio', min_value=0.0, step=0.01)
         score = st.number_input('Puntuación', min_value=1.0, max_value=5.0, step=0.1)
         wine_type = st.selectbox('Tipo de vino', options=[1, 2], format_func=lambda x: wine_type_mapping[x])
-        price_quality = st.selectbox('Calidad del precio', options=[0, 1, 2, 3, 4, 5, 6])  # Ajusta las opciones según sea necesario
+        price_quality = st.selectbox('Calidad del precio', options=[1, 2, 3, 4, 5, 6], format_func=lambda x: price_quality_mapping[x])  # Ajusta las opciones según sea necesario
         country_name  = st.text_input('País')
 
          # Asignar el número del país
