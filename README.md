@@ -1,8 +1,8 @@
 # 🍷 Wine Pairing Recommendation Project
 
 ## 🌍 Chose Your Language / Elige tu idioma:
-- [English](#english-)
-- [Español](#español-)
+- [English](#english-gb)
+- [Español](#español-es)
 
 ---
 
