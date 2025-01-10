@@ -21,10 +21,21 @@ pip install streamlit pandas scikit-learn joblib
 ```
 
 ### 2️⃣ Ejecutar la Aplicación
-Inicia la aplicación con el siguiente comando:
-```bash
-streamlit run app.py
-```
+#### 🖥️ Opción 1: Ejecutar con Python
+1. Inicia la aplicación con el siguiente comando:
+    ```bash
+    streamlit run app.py
+    ```
+2. Busca en el navegador `http://localhost:8501/`.
+
+#### 🐳 Opción 2: Ejecutar con Docker
+1. Inicia el programa Docker Desktop 🐳.
+2. Abre la terminal y sitúate en el directorio del proyecto.
+3. Ejecuta el siguiente comando:
+    ```bash
+    docker-compose up --build
+    ```
+4. Abre tu navegador en `http://localhost:8502/`.
 
 ### 3️⃣ Interactuar con la Aplicación
 - 🕵️ Buscar un vino: Escribe el nombre de un vino y descubre con qué alimentos marida mejor.
