@@ -89,7 +89,7 @@ This project was created by:
 - **Jose Sanchez**
 - **Jesús Ruiz Toledo**
 
-Enjoy the perfect pairing between technology and gastronomy. 🍷🍴
+*Enjoy the perfect pairing between technology and gastronomy.* 🍷🍴
 
 ---
 
@@ -176,4 +176,4 @@ Este proyecto fue creado por:
 - **Jose Sanchez**
 - **Jesús Ruiz Toledo** 
 
-Disfruta del maridaje perfecto entre tecnología y gastronomía. 🍷🍴
+*Disfruta del maridaje perfecto entre tecnología y gastronomía.* 🍷🍴
