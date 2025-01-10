@@ -78,7 +78,26 @@ The AI model:
 - 🗃️ **`modelo_maridaje.pkl`**: Trained AI model file.
 
 ## 📸 Screenshots
-✨ To be added (you can upload UI screenshots here).
+### 1. Initial Screen: Selecting a wine and recommending a pairing 🍷🍽️
+![Initial Screen](https://raw.githubusercontent.com/jimmysm1995/wine-pairing-recommendation/rama-david/data/images/image_1.png)
+
+This is the initial view of the application where you can select a wine and receive pairing recommendations based on your choice.
+
+### 2. Wine Details and Flavour Description 🍇🍷
+![Wine Details](https://raw.githubusercontent.com/jimmysm1995/wine-pairing-recommendation/rama-david/data/images/image_2.png)
+
+Here you can see the details of the selected wine, including its winery, price, rating, wine type, and a description of the flavours.
+
+### 3. Adding a New Wine 🍾📝
+![Add New Wine](https://raw.githubusercontent.com/jimmysm1995/wine-pairing-recommendation/rama-david/data/images/image_3.png)
+
+In this screen, you can add a new wine by providing details such as the name, winery, year, wine type, and other relevant information.
+
+### 4. Pairing Recommendation for the New Wine 🍽️🍷
+![Pairing Recommendation](https://raw.githubusercontent.com/jimmysm1995/wine-pairing-recommendation/rama-david/data/images/image_4.png)
+
+After entering a new wine, the app will recommend food pairings based on the wine you’ve just added.
+
 
 ## 📃 License
 This project is licensed under the MIT license. See the `LICENSE`file for details.
@@ -165,7 +184,25 @@ El modelo de IA:
 - 🗃️ **`modelo_maridaje.pkl`**: Modelo de IA entrenado.
 
 ## 📸 Capturas de Pantalla
-✨ Por agregar (puedes subir capturas de la interfaz aquí).
+### 1. Pantalla inicial: Seleccionando un vino y recomendando el maridaje 🍷🍽️
+![Pantalla inicial](https://raw.githubusercontent.com/jimmysm1995/wine-pairing-recommendation/rama-david/data/images/image_1.png)
+
+Esta es la vista inicial de la aplicación donde puedes seleccionar un vino y obtener recomendaciones de maridaje según el vino elegido.
+
+### 2. Detalles del vino y descripción de los sabores 🍇🍷
+![Detalles del vino](https://raw.githubusercontent.com/jimmysm1995/wine-pairing-recommendation/rama-david/data/images/image_2.png)
+
+Aquí se muestran los detalles del vino seleccionado, incluyendo su bodega, precio, puntuación, tipo de vino, y una descripción de los sabores.
+
+### 3. Ingresando un nuevo vino 🍾📝
+![Ingreso de nuevo vino](https://raw.githubusercontent.com/jimmysm1995/wine-pairing-recommendation/rama-david/data/images/image_3.png)
+
+En esta pantalla, puedes ingresar un nuevo vino proporcionando los detalles como el nombre, la bodega, el año, el tipo de vino y otros datos.
+
+### 4. Recomendación de maridaje para el vino ingresado 🍽️🍷
+![Recomendación de maridaje](https://raw.githubusercontent.com/jimmysm1995/wine-pairing-recommendation/rama-david/data/images/image_4.png)
+
+Después de ingresar un vino, la aplicación te recomendará maridajes de alimentos ideales basados en el vino que has introducido.
 
 ## 📃 Licencia
 Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE`para más detalles.
