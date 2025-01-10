@@ -54,9 +54,9 @@ El modelo de IA:
   - Sabor y país de origen 🌎
 
 ## Archivos Importantes:
-- 📄 `vivino.csv`: Datos en bruto obtenidos mediante scraping.
-- 📄 `vivino_clean.csv`: Datos limpios y listos para usar en el modelo.
-- 🗃️ `modelo_maridaje.pkl`: Modelo de IA entrenado.
+- 📄 **`vivino.csv`**: Datos en bruto obtenidos mediante scraping.
+- 📄 **`vivino_clean.csv`**: Datos limpios y listos para usar en el modelo.
+- 🗃️ **`modelo_maridaje.pkl`**: Modelo de IA entrenado.
 
 ## 📸 Capturas de Pantalla
 ✨ Por agregar (puedes subir capturas de la interfaz aquí).
