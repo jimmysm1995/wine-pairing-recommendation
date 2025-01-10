@@ -85,9 +85,9 @@ This project is licensed under the MIT license. Feel free to use and improve it!
 
 ## 👨‍💻 Credits
 This project was created by:
-- **David Moreno Cerezo**
-- **Jose Sanchez**
-- **Jesús Ruiz Toledo**
+- **David Moreno Cerezo** 🍇
+- **Jose Sanchez** 🍾
+- **Jesús Ruiz Toledo** 🧀
 
 *Enjoy the perfect pairing between technology and gastronomy.* 🍷🍴
 
@@ -172,8 +172,8 @@ Este proyecto está bajo la licencia MIT. ¡Siéntete libre de usarlo y mejorarl
 
 ## 👨‍💻 Créditos
 Este proyecto fue creado por:
-- **David Moreno Cerezo**
-- **Jose Sanchez**
-- **Jesús Ruiz Toledo** 
+- **David Moreno Cerezo** 🍇
+- **Jose Sanchez** 🍾
+- **Jesús Ruiz Toledo** 🧀
 
 *Disfruta del maridaje perfecto entre tecnología y gastronomía.* 🍷🍴
