@@ -14,20 +14,45 @@ model = load_model()
 @st.cache_data
 def load_data():
     data = pd.read_csv('data/vivino_clean.csv')
-    # Eliminar los vinos que tengan como año -1
-    data = data[data['year'] != -1]
+    # Diccionario de mapeo para renombrar las columnas
+    column_mapping = {
+        'winery': 'bodega',
+        'wine_name': 'wine_name',
+        'year': 'year',
+        'price': 'price',
+        'score': 'score',
+        'country': 'country',
+        'wine_type': 'wine_type',
+        'pairing': 'pairing',
+        'flavours': 'flavours',
+        'picture': 'image',
+        'price_quality': 'price_quality',
+        'Estilo de vino': 'wine_style',
+        'Contenido de alcohol': 'contenido_de_alcohol',
+        'country_España': 'country_España',
+        'country_Francia': 'country_Francia',
+        'country_Italia': 'country_Italia',
+        'country_Other': 'country_Other',
+        'flavour_cí­trico': 'flavour_citrico',
+        'flavour_especias': 'flavour_especias',
+        'flavour_floral': 'flavour_floral',
+        'flavour_fruta negra': 'flavour_fruta_negra',
+        'flavour_fruta seca': 'flavour_fruta_seca',
+        'flavour_frutos de árbol': 'flavour_frutos_de_arbol',
+        'flavour_frutos rojos': 'flavour_frutos_rojos',
+        'flavour_microbio': 'flavour_microbio',
+        'flavour_roble': 'flavour_roble',
+        'flavour_terroso': 'flavour_terroso',
+        'flavour_tropical': 'flavour_tropical',
+        'flavour_vegetal': 'flavour_vegetal'
+    }
+
+    # Renombrar columnas basándose en el mapeo
+    data = data.rename(columns=column_mapping)
+
     return data
 
 data = load_data()
-
-# Renombrar las columnas para que coincidan con las características usadas para entrenar el modelo
-data.columns = [
-    'bodega', 'wine_name', 'year', 'price', 'score', 'country', 'wine_type',
-    'pairing', 'pictures', 'price_quality', 'wine_style', 'country_grouped'
-]
-
-# Renombrar la columna 'pictures' a 'image'
-data = data.rename(columns={'pictures': 'image'})
 
 # Actualizar las URLs en la columna 'image' para que comiencen con 'https:'
 data['image'] = data['image'].apply(lambda x: f"https:{x}" if x.startswith('//') else x)
@@ -64,20 +89,72 @@ wine_type_mapping = {
     2: 'Tinto'
 }
 
-# Diccionario para asociar países a grupos
+# Diccionario para mapear los países
 country_mapping = {
-    'italia': 1,
-    'francia': 2,
-    'españa': 3
+    'españa': [1, 0, 0, 0],
+    'francia': [0, 1, 0, 0],
+    'italia': [0, 0, 1, 0],
+    'otros': [0, 0, 0, 1]
 }
 
-# Función que mapea los demás países a 0 (otros países)
+#Diccionario para relacionar la calidad del precio con un número
+price_quality_mapping = {
+    1: 'Relación calidad-precio no disponible',
+    2: 'Mejor relación calidad-precio en otros vinos',
+    3: 'Relación calidad-precio razonable',
+    4: 'Buena relación calidad-precio',
+    5: 'Excelente relación calidad-precio',
+    6:'¡Increaíble relación calidad-precio!'
+}
+
+# Diccionario para mapear los sabores
+flavour_map = {
+    'citrico': [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    'especias': [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    'floral': [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    'fruta negra': [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    'fruta seca': [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    'frutos de arbol': [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    'frutos rojos': [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    'microbio': [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    'roble': [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    'terroso': [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    'tropical': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+    'vegetal': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+}
+
+# Diccionario con las descripciones de los sabores
+flavour_descriptions = {
+    'flavour_citrico': 'Sabor fresco y ácido, típico de frutas como naranjas y limones.',
+    'flavour_especias': 'Notas especiadas que incluyen pimienta, canela o clavo.',
+    'flavour_floral': 'Sabor que recuerda a flores, como jazmín o rosas.',
+    'flavour_fruta_negra': 'Notas de frutas oscuras, como moras o ciruelas.',
+    'flavour_fruta_seca': 'Sabor a frutas secas, como pasas o albaricoques.',
+    'flavour_frutos_de_arbol': 'Sabor a frutos de árbol, como manzanas o peras.',
+    'flavour_frutos_rojos': 'Notas de frutas rojas como fresas, cerezas o frambuesas.',
+    'flavour_microbio': 'Notas que recuerdan a un sabor fermentado o terroso.',
+    'flavour_roble': 'Sabor a madera, especialmente cuando el vino ha sido envejecido en barricas de roble.',
+    'flavour_terroso': 'Sabor que recuerda a la tierra o al suelo mojado.',
+    'flavour_tropical': 'Sabor a frutas tropicales como piña, mango o maracuyá.',
+    'flavour_vegetal': 'Notas vegetales, como hierba fresca o pimientos.'
+}
+
+# Función que mapea el país a características One-Hot
 def map_country_to_group(country_name):
     country_name = country_name.lower()
-    return country_mapping.get(country_name, 0)  # Si no es Italia, Francia o España, se asigna 0
+    if country_name not in country_mapping:
+        country_name = 'Otro'
+
+    # Obtener las características del país según el mapeo
+    return country_mapping[country_name]
+
+# Función para obtener las características One-Hot del sabor seleccionado
+def get_flavour_features(flavour):
+    return flavour_map.get(flavour)
+
 
 # Función para recomendar maridaje usando el modelo
-def recomendar_maridaje(vino, data=None):
+def recomendar_maridaje(vino, flavour, pais, data=None):
     # Si se pasa el nombre del vino
     if isinstance(vino, str): 
         vino_data = data[data['wine_name'] == vino]
@@ -89,9 +166,16 @@ def recomendar_maridaje(vino, data=None):
     else:
         return "El dataframe del tipo de vino no es correcto"
 
-    # Usar el modelo para predecir el maridaje
-    features = vino_data[['year', 'price', 'score', 'wine_type', 'price_quality', 'country_grouped']]
-    maridaje_predicho = model.predict(features)
+    # Obtener características del país y del sabor
+    country_features = map_country_to_group(pais)
+    flavour_features = get_flavour_features(flavour)
+
+    # Usar las características del vino junto con las nuevas características (país y sabor)
+    features = vino_data[['year', 'price', 'score', 'wine_type', 'price_quality', 'contenido_de_alcohol']].iloc[0].values.tolist()
+    features += country_features + flavour_features  # Concatenamos las características
+
+    # Realizar la predicción de maridaje
+    maridaje_predicho = model.predict([features])
 
     # Convertir los valores predichos a nombres de alimentos
     maridaje_nombres = [food_mapping[i] for i, val in enumerate(maridaje_predicho[0]) if val == 1]
@@ -119,8 +203,25 @@ if opcion == 'Buscar vino':
             # Selección del vino
             vino_seleccionado = st.selectbox('Selecciona el vino:', vinos_ordenados)
 
+             # Obtener los datos del vino seleccionado
+            vino_data = vinos_filtrados[vinos_filtrados['wine_name'] == vino_seleccionado].iloc[0]
+
+            # Elige el sabor que tiene ese vino
+            sabor = vino_data['flavours']
+
+            # Obtener el país del vino a partir de las columnas One-Hot
+            if vino_data['country_España'] == 1:
+                pais = 'España'
+            elif vino_data['country_Francia'] == 1:
+                pais = 'Francia'
+            elif vino_data['country_Italia'] == 1:
+                pais = 'Italia'
+            else:
+                pais = 'Otro'
+
+            # Llamar a la función de recomendación de maridaje
             if st.button('Recomendar Maridaje'):
-                maridaje = recomendar_maridaje(vino_seleccionado, data)  # Se pasa el nombre del vino y el DataFrame
+                maridaje = recomendar_maridaje(vino_seleccionado, sabor, pais, data)  # Se pasa el nombre del vino y el DataFrame
                 if maridaje:
                     st.write(f"Maridaje recomendado para {vino_seleccionado}: {', '.join(maridaje)}")
                 else:
@@ -132,11 +233,14 @@ if opcion == 'Buscar vino':
                 st.subheader('Detalles del Vino Seleccionado')
                 st.write(f"Bodega: {vino_data.iloc[0]['bodega']}")
                 st.write(f"Año: {vino_data.iloc[0]['year']}")
-                st.write(f"Precio: {vino_data.iloc[0]['price']}")
+                st.write(f"Precio: {vino_data.iloc[0]['price']}€")
+                st.write(f"Grado de alcohol: {vino_data.iloc[0]['contenido_de_alcohol']}%")
                 st.write(f"Puntuación: {vino_data.iloc[0]['score']}")
                 st.write(f"País: {vino_data.iloc[0]['country']}")
                 st.write(f"Tipo de Vino: {wine_type_mapping[vino_data.iloc[0]['wine_type']]}")
+                st.write(f"Sabor: {vino_data.iloc[0]['flavours'].capitalize()}")
                 st.write(f"Estilo de Vino: {vino_data.iloc[0]['wine_style']}")
+                st.write(f"Relación Calidad-Precio: {price_quality_mapping.get(vino_data.iloc[0]['price_quality'])}")
                 if vino_data.iloc[0]['image']:
                     st.image(vino_data.iloc[0]['image'], width=80)
     else:
@@ -150,13 +254,24 @@ elif opcion == 'Ingresar un vino nuevo':
         wine_name = st.text_input('Nombre del vino')
         year = st.number_input('Año', min_value=1700, max_value=2025, step=1)
         price = st.number_input('Precio', min_value=0.0, step=0.01)
+        alcohol = st.number_input('Grado de alcohol', min_value=0.0, max_value=16.0, step=0.01)
         score = st.number_input('Puntuación', min_value=1.0, max_value=5.0, step=0.1)
         wine_type = st.selectbox('Tipo de vino', options=[1, 2], format_func=lambda x: wine_type_mapping[x])
-        price_quality = st.selectbox('Calidad del precio', options=[0, 1, 2, 3, 4, 5, 6])  # Ajusta las opciones según sea necesario
-        country_name  = st.text_input('País')
+        price_quality = st.selectbox('Calidad del precio', options=[1, 2, 3, 4, 5, 6], format_func=lambda x: price_quality_mapping[x])  # Ajusta las opciones según sea necesario
 
-         # Asignar el número del país
-        country_grouped = map_country_to_group(country_name)
+        # Elegir el pais del vino
+        selected_country = st.selectbox(
+            'País',
+            options=list(country_mapping.keys()),
+            format_func=lambda x: x.capitalize()
+        )
+
+        # Elegir el sabor asociado al vino
+        selected_flavours = st.selectbox(
+            'Sabor del vino',
+            options=list(flavour_map.keys()),
+            format_func=lambda x: x.capitalize()
+        )
 
         # Botón para enviar el formulario
         submit_button = st.form_submit_button(label='Recomendar Maridaje')
@@ -170,12 +285,30 @@ elif opcion == 'Ingresar un vino nuevo':
             'score': [score],
             'wine_type': [wine_type],
             'price_quality': [price_quality],
-            'country_grouped': [country_grouped]  # Aquí asignamos el grupo de país
+            'contenido_de_alcohol': [alcohol],
         })
 
+        # Obtener el sabor y el país del formulario
+        flavour = selected_flavours
+        pais = selected_country
+
         # Recomendar maridaje
-        maridaje = recomendar_maridaje(nuevo_vino)
+        maridaje = recomendar_maridaje(nuevo_vino, flavour, pais)
         if maridaje:
             st.write(f"Maridaje recomendado para el vino '{wine_name}': {', '.join(maridaje)}")
         else:
             st.write(f"No se pudo recomendar un maridaje para el vino '{wine_name}'.")
+
+
+# Agregar un salto de línea visual
+st.markdown('<br>', unsafe_allow_html=True)
+# Información de los sabores
+st.subheader('Información sobre los sabores')
+# Mostrar el selector de sabores
+selected_flavour = st.selectbox(
+    'Selecciona un sabor del vino',
+    options=list(flavour_descriptions.keys()),
+    format_func=lambda x: x.replace("flavour_", "").capitalize()  # Formatear para mostrar sin "flavour_"
+)
+
+st.write(f"Descripción: {flavour_descriptions[selected_flavour]}")
