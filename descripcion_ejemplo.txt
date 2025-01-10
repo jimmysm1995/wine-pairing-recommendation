@@ -1,0 +1,3 @@
+Wine Pairing Recommender es una aplicación que sugiere maridajes de alimentos para vinos utilizando un modelo de inteligencia artificial. 
+A través de un proceso de scraping y preprocesamiento de datos, el sistema ofrece recomendaciones personalizadas basadas en las características del vino elegido. 
+Además, es compatible con Docker para facilitar su ejecución.
