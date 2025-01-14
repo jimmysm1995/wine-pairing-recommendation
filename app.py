@@ -222,8 +222,12 @@ if opcion == 'Buscar vino':
             # Llamar a la función de recomendación de maridaje
             if st.button('Recomendar Maridaje'):
                 maridaje = recomendar_maridaje(vino_seleccionado, sabor, pais, data)  # Se pasa el nombre del vino y el DataFrame
+
+                st.subheader(f"Maridaje recomendado para el vino '{wine_name}'")
                 if maridaje:
-                    st.write(f"Maridaje recomendado para {vino_seleccionado}: {', '.join(maridaje)}")
+                    st.write("Las combinaciones sugeridas son:")
+                    # Mostrar el maridaje como una lista tipo viñetas
+                    st.markdown("\n".join([f"- {food}" for food in maridaje]))
                 else:
                     st.write(f"No se encontró el vino '{vino_seleccionado}' o no se pudo recomendar un maridaje.")
 
@@ -293,9 +297,10 @@ elif opcion == 'Ingresar un vino nuevo':
         pais = selected_country
 
         # Recomendar maridaje
+        maridaje = recomendar_maridaje(nuevo_vino, flavour, pais)
+
         st.subheader(f"Maridaje recomendado para el vino '{wine_name}'")
         
-        maridaje = recomendar_maridaje(nuevo_vino, flavour, pais)
         if maridaje:
             st.write("Las combinaciones sugeridas son:")
             # Mostrar el maridaje como una lista tipo viñetas
