@@ -282,6 +282,9 @@ elif opcion == 'Ingresar un vino nuevo':
 
     # Si el formulario fue enviado
     if submit_button:
+        # Verificar si los campos están vacíos
+        if not bodega or not wine_name:
+            st.warning("Por favor, completa todos los campos: 'Bodega' y 'Nombre del vino'.")
         # Crear un DataFrame con los datos del vino ingresado
         nuevo_vino = pd.DataFrame({
             'year': [year],
