@@ -285,31 +285,33 @@ elif opcion == 'Ingresar un vino nuevo':
         # Verificar si los campos están vacíos
         if not bodega or not wine_name:
             st.warning("Por favor, completa todos los campos: 'Bodega' y 'Nombre del vino'.")
-        # Crear un DataFrame con los datos del vino ingresado
-        nuevo_vino = pd.DataFrame({
-            'year': [year],
-            'price': [price],
-            'score': [score],
-            'wine_type': [wine_type],
-            'price_quality': [price_quality],
-            'contenido_de_alcohol': [alcohol],
-        })
 
-        # Obtener el sabor y el país del formulario
-        flavour = selected_flavours
-        pais = selected_country
-
-        # Recomendar maridaje
-        maridaje = recomendar_maridaje(nuevo_vino, flavour, pais)
-
-        st.subheader(f"Maridaje recomendado para el vino: {wine_name}")
-        
-        if maridaje:
-            st.write("Las combinaciones sugeridas son:")
-            # Mostrar el maridaje como una lista tipo viñetas
-            st.markdown("\n".join([f"- {food}" for food in maridaje]))
         else:
-            st.write(f"No se pudo recomendar un maridaje para el vino '{wine_name}'.")
+            # Crear un DataFrame con los datos del vino ingresado
+            nuevo_vino = pd.DataFrame({
+                'year': [year],
+                'price': [price],
+                'score': [score],
+                'wine_type': [wine_type],
+                'price_quality': [price_quality],
+                'contenido_de_alcohol': [alcohol],
+            })
+    
+            # Obtener el sabor y el país del formulario
+            flavour = selected_flavours
+            pais = selected_country
+    
+            # Recomendar maridaje
+            maridaje = recomendar_maridaje(nuevo_vino, flavour, pais)
+    
+            st.subheader(f"Maridaje recomendado para el vino: {wine_name}")
+            
+            if maridaje:
+                st.write("Las combinaciones sugeridas son:")
+                # Mostrar el maridaje como una lista tipo viñetas
+                st.markdown("\n".join([f"- {food}" for food in maridaje]))
+            else:
+                st.write(f"No se pudo recomendar un maridaje para el vino '{wine_name}'.")
 
 
 # Agregar un salto de línea visual
