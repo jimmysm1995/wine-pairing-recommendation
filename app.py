@@ -260,7 +260,7 @@ elif opcion == 'Ingresar un vino nuevo':
         price = st.number_input('Precio', min_value=0.0, step=0.01, value=12.50)
         alcohol = st.number_input('Grado de alcohol', min_value=0.0, max_value=16.0, step=0.01, value=11.0)
         score = st.number_input('Puntuación', min_value=1.0, max_value=5.0, step=0.1)
-        wine_type = st.selectbox('Tipo de vino', options=[1, 2], format_func=lambda x: wine_type_mapping[x], value="Tinto")
+        wine_type = st.selectbox('Tipo de vino', options=[1, 2], format_func=lambda x: wine_type_mapping[x], value=2)
         price_quality = st.selectbox('Calidad del precio', options=[1, 2, 3, 4, 5, 6], format_func=lambda x: price_quality_mapping[x])  # Ajusta las opciones según sea necesario
 
         # Elegir el pais del vino
