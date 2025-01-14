@@ -293,7 +293,7 @@ elif opcion == 'Ingresar un vino nuevo':
         pais = selected_country
 
         # Recomendar maridaje
-        st.title(f"Maridaje recomendado para el vino '{wine_name}'")
+        st.subheader(f"Maridaje recomendado para el vino '{wine_name}'")
         
         maridaje = recomendar_maridaje(nuevo_vino, flavour, pais)
         if maridaje:
