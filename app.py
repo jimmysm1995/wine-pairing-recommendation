@@ -223,7 +223,7 @@ if opcion == 'Buscar vino':
             if st.button('Recomendar Maridaje'):
                 maridaje = recomendar_maridaje(vino_seleccionado, sabor, pais, data)  # Se pasa el nombre del vino y el DataFrame
 
-                st.subheader(f"Maridaje recomendado para el vino '{wine_name}'")
+                st.subheader(f"Maridaje recomendado para el vino '{vino_seleccionado}'")
                 if maridaje:
                     st.write("Las combinaciones sugeridas son:")
                     # Mostrar el maridaje como una lista tipo viñetas
