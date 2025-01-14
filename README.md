@@ -9,6 +9,9 @@
 ## English GB
 Welcome! 🎉 This project presents an application developed with [**Streamlit**](https://streamlit.io/) that uses **artificial intelligence** 🤖 to recommend the best food pairings 🍽 based on the wine 🍇 you choose or input. It uses a model trained with data gathered through **scraping** and preprocessing, providing personalized recommendations. Additionally, the project is compatible with [**Docker**](https://www.docker.com/) 🐳 for easy deployment.
 
+You can access the app via the following link:
+🌐 [Wine Pairing Recomendation on Streamlit](https://wine-pairing-recommendation.streamlit.app/)
+
 ## 📂 Project Structure
 
 The project is divided into several files, each with a specific purpose:
@@ -115,6 +118,9 @@ This project was created by:
 ## Español ES
 
 ¡Bienvenido! 🎉 Este proyecto presenta una aplicación desarrollada con [**Streamlit**](https://streamlit.io/) que utiliza **inteligencia artificial** 🤖 para recomendar el mejor maridaje de comida 🍽 en función del vino 🍇 que elijas o ingreses. Utiliza un modelo entrenado con datos obtenidos a través de **scraping** y preprocesamiento, ofreciendo recomendaciones personalizadas. Además, el proyecto es compatible con [**Docker**](https://www.docker.com/) 🐳 para facilitar su ejecución.
+
+Puedes acceder a la aplicación en el siguiente enlace:  
+🌐 [Wine Pairing Recomendation en Streamlit](https://wine-pairing-recommendation.streamlit.app/)
 
 ## 📂 Estructura del Proyecto
 
