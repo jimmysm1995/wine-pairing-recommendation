@@ -293,9 +293,13 @@ elif opcion == 'Ingresar un vino nuevo':
         pais = selected_country
 
         # Recomendar maridaje
+        st.title(f"Maridaje recomendado para el vino '{wine_name}'")
+        
         maridaje = recomendar_maridaje(nuevo_vino, flavour, pais)
         if maridaje:
-            st.write(f"Maridaje recomendado para el vino '{wine_name}': {', '.join(maridaje)}")
+            st.write("Las combinaciones sugeridas son:")
+            # Mostrar el maridaje como una lista tipo viñetas
+            st.markdown("\n".join([f"- {food}" for food in maridaje]))
         else:
             st.write(f"No se pudo recomendar un maridaje para el vino '{wine_name}'.")
 
