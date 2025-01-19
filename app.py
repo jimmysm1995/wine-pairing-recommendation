@@ -170,9 +170,9 @@ def recomendar_maridaje(vino, flavour, pais, data=None):
     country_features = map_country_to_group(pais)
     flavour_features = get_flavour_features(flavour)
 
-    return (type(country_features))
-    print(type(flavour_features))
-
+    st.write(type(country_features))
+    st.write(type(flavour_features))
+    
     # # Usar las características del vino junto con las nuevas características (país y sabor)
     # features = vino_data[['year', 'price', 'score', 'wine_type', 'price_quality', 'contenido_de_alcohol']].iloc[0].values.tolist()
     # features += country_features + flavour_features  # Concatenamos las características
