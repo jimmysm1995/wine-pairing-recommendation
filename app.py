@@ -169,20 +169,18 @@ def recomendar_maridaje(vino, flavour, pais, data=None):
     # Obtener características del país y del sabor
     country_features = map_country_to_group(pais)
     flavour_features = get_flavour_features(flavour)
-
-    st.write(flavour_features)
     
-    # # Usar las características del vino junto con las nuevas características (país y sabor)
-    # features = vino_data[['year', 'price', 'score', 'wine_type', 'price_quality', 'contenido_de_alcohol']].iloc[0].values.tolist()
-    # features += country_features + flavour_features  # Concatenamos las características
+    # Usar las características del vino junto con las nuevas características (país y sabor)
+    features = vino_data[['year', 'price', 'score', 'wine_type', 'price_quality', 'contenido_de_alcohol']].iloc[0].values.tolist()
+    features += country_features + flavour_features  # Concatenamos las características
 
-    # # Realizar la predicción de maridaje
-    # maridaje_predicho = model.predict([features])
+    # Realizar la predicción de maridaje
+    maridaje_predicho = model.predict([features])
 
-    # # Convertir los valores predichos a nombres de alimentos
-    # maridaje_nombres = [food_mapping[i] for i, val in enumerate(maridaje_predicho[0]) if val == 1]
+    # Convertir los valores predichos a nombres de alimentos
+    maridaje_nombres = [food_mapping[i] for i, val in enumerate(maridaje_predicho[0]) if val == 1]
 
-    # return maridaje_nombres
+    return maridaje_nombres
 
 
 # Título de la aplicación
