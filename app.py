@@ -109,12 +109,12 @@ price_quality_mapping = {
 
 # Diccionario para mapear los sabores
 flavour_map = {
-    'citrico': [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    'cítrico': [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     'especias': [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     'floral': [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     'fruta negra': [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
     'fruta seca': [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-    'frutos de arbol': [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    'frutos de árbol': [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
     'frutos rojos': [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
     'microbio': [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     'roble': [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
@@ -170,7 +170,7 @@ def recomendar_maridaje(vino, flavour, pais, data=None):
     country_features = map_country_to_group(pais)
     flavour_features = get_flavour_features(flavour)
 
-    st.write(flavour)
+    st.write(flavour_features)
     
     # # Usar las características del vino junto con las nuevas características (país y sabor)
     # features = vino_data[['year', 'price', 'score', 'wine_type', 'price_quality', 'contenido_de_alcohol']].iloc[0].values.tolist()
