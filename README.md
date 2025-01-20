@@ -124,9 +124,9 @@ This project was created by:
 
 Puedes acceder a la aplicación en el siguiente enlace: 🌐 [Wine Pairing Recomendation en Streamlit](https://wine-pairing-recommendation.streamlit.app/)
 
-📹 Aprende más sobre el proyecto en este video: [Ver en YouTube](https://www.youtube.com/watch?v=rCavFXeN6FI)
+Aprende más sobre el proyecto en este video: 📹 [Ver en YouTube](https://www.youtube.com/watch?v=rCavFXeN6FI)
 
-📊 Consulta la presentación interactiva: [Ver en Genially](https://view.genially.com/6786bfd812e4894345ad6773/presentation-presentacion-wine-pairing)
+Consulta la presentación interactiva: 📊 [Ver en Genially](https://view.genially.com/6786bfd812e4894345ad6773/presentation-presentacion-wine-pairing)
 
 ## 📂 Estructura del Proyecto
 
