@@ -11,9 +11,9 @@ Welcome! 🎉 This project presents an application developed with [**Streamlit**
 
 You can access the app via the following link: 🌐 [Wine Pairing Recomendation on Streamlit](https://wine-pairing-recommendation.streamlit.app/)
 
-📹 Learn more about the project in this video: [Watch on YouTube](https://www.youtube.com/watch?v=rCavFXeN6FI)
+Learn more about the project in this video: 📹 [Watch on YouTube](https://www.youtube.com/watch?v=rCavFXeN6FI)
 
-📊 Check out the interactive presentation: [View on Genially](https://view.genially.com/6786bfd812e4894345ad6773/presentation-presentacion-wine-pairing)
+Check out the interactive presentation: 📊 [View on Genially](https://view.genially.com/6786bfd812e4894345ad6773/presentation-presentacion-wine-pairing)
 
 ## 📂 Project Structure
 
